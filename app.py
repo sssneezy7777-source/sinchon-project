@@ -1,10 +1,10 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, send_file
 from flask_cors import CORS
 import requests
 import os
 from datetime import datetime
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='.')
 CORS(app)
 
 # 텔레그램 설정
@@ -19,15 +19,16 @@ applications = []
 def serve_logo():
     """로고 파일 제공"""
     try:
-        return send_from_directory('.', 'logo.png', mimetype='image/png')
-    except:
+        return send_file('logo.png', mimetype='image/png')
+    except Exception as e:
+        print(f"Logo error: {e}")
         return "Logo not found", 404
 
 @app.route('/')
 def home():
     """메인 페이지 - 신청 페이지 표시"""
     try:
-        return send_from_directory('.', 'sinchon_project.html')
+        return send_file('sinchon_project.html')
     except FileNotFoundError:
         return "신청 페이지를 찾을 수 없습니다.", 404
 
