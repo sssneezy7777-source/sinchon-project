@@ -34,6 +34,11 @@ def send_telegram_message(message):
         print(f"텔레그램 전송 실패: {e}")
         return False
 
+@app.route('/logo.png')
+def serve_logo():
+    return send_from_directory('.', 'logo.png')
+
+
 @app.route('/')
 def index():
     """관리자 대시보드"""
