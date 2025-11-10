@@ -14,25 +14,20 @@ TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID', '')
 # 접수 데이터 저장 (메모리)
 applications = []
 
-# 🎨 로고 및 정적 파일 제공 (이 부분이 핵심!)
+# 🎨 정적 파일 제공 - 이 순서가 중요!
 @app.route('/logo.png')
 def serve_logo():
     """로고 파일 제공"""
-    return send_from_directory('.', 'logo.png')
-
-@app.route('/<path:filename>')
-def serve_static(filename):
-    """기타 정적 파일 제공 (이미지, CSS, JS 등)"""
-    if os.path.exists(filename):
-        return send_from_directory('.', filename)
-    return "File not found", 404
+    try:
+        return send_from_directory('.', 'logo.png', mimetype='image/png')
+    except:
+        return "Logo not found", 404
 
 @app.route('/')
 def home():
     """메인 페이지 - 신청 페이지 표시"""
     try:
-        with open('sinchon_project.html', 'r', encoding='utf-8') as f:
-            return f.read()
+        return send_from_directory('.', 'sinchon_project.html')
     except FileNotFoundError:
         return "신청 페이지를 찾을 수 없습니다.", 404
 
