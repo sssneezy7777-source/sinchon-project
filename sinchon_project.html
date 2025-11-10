@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>신촌 프로젝트 - 영어 말하기 커뮤니티</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4A90E2 0%, #5BA3E8 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4A90E2 0%, #5BA3E8 100%);
+            color: white;
+            padding: 50px 30px;
+            text-align: center;
+        }
+        
+        .logo {
+            width: 200px;
+            height: auto;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        
+        .header .subtitle {
+            font-size: 15px;
+            opacity: 0.95;
+            font-weight: 500;
+            margin-top: 15px;
+            letter-spacing: 0.5px;
+        }
+        
+        .intro {
+            padding: 40px 30px;
+            background: #f8f9fa;
+        }
+        
+        .intro-grid {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .intro-item {
+            background: white;
+            padding: 18px 20px;
+            border-radius: 12px;
+            border-left: 4px solid #4A90E2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .intro-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.15);
+        }
+        
+        .intro-item strong {
+            color: #4A90E2;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        
+        .intro-item span {
+            color: #495057;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        .form-section {
+            padding: 40px 30px;
+        }
+        
+        .form-section-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 700;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .required {
+            color: #dc3545;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4A90E2;
+            box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.1);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .helper-text {
+            font-size: 13px;
+            color: #6c757d;
+            margin-top: 5px;
+            display: block;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #4A90E2 0%, #5BA3E8 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(74, 144, 226, 0.4);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 35px;
+            border-radius: 16px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .modal-content h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 20px;
+        }
+        
+        .modal-content p {
+            margin-bottom: 25px;
+            color: #666;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .modal-btn {
+            flex: 1;
+            padding: 13px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .modal-btn.yes {
+            background: #4A90E2;
+            color: white;
+        }
+        
+        .modal-btn.yes:hover {
+            background: #3A7BC8;
+        }
+        
+        .modal-btn.no {
+            background: #e9ecef;
+            color: #333;
+        }
+        
+        .modal-btn.no:hover {
+            background: #dee2e6;
+        }
+        
+        .success-message {
+            display: none;
+            padding: 22px;
+            background: #d4edda;
+            color: #155724;
+            border-radius: 12px;
+            margin-top: 20px;
+            text-align: center;
+            border: 2px solid #c3e6cb;
+            font-weight: 500;
+        }
+        
+        .error-message {
+            display: none;
+            padding: 22px;
+            background: #f8d7da;
+            color: #721c24;
+            border-radius: 12px;
+            margin-top: 20px;
+            text-align: center;
+            border: 2px solid #f5c6cb;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 600px) {
+            .logo {
+                width: 160px;
+            }
+            
+            .intro {
+                padding: 30px 20px;
+            }
+            
+            .form-section {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <!-- 로고 이미지 -->
+        <img src="logo.png" alt="The Sinchon Project Logo" class="logo">
+        <h1 class="title">영어 말하기 커뮤니티, 신촌 프로젝트</h1>
+        <div class="subtitle">www.sinchonproject.co.kr</div>
+    </div>
+        
+        <div class="intro">
+            <div class="intro-grid">
+                <div class="intro-item">
+                    <strong>📅 운영 방식</strong>
+                    <span>1회 2시간, 평균 3-4인 소그룹</span>
+                </div>
+                
+                <div class="intro-item">
+                    <strong>🕐 일정 선택</strong>
+                    <span>평일 오후, 저녁, 주말 오후 (선택 및 변경 가능)</span>
+                </div>
+                
+                <div class="intro-item">
+                    <strong>💬 진행 방식</strong>
+                    <span>초급 제외, 영어로만 대화</span>
+                </div>
+                
+                <div class="intro-item">
+                    <strong>👥 진행자</strong>
+                    <span>해외 경험 많은 교포, 유학생, 원어민 진행</span>
+                </div>
+                
+                <div class="intro-item">
+                    <strong>📊 레벨 구분</strong>
+                    <span>초급 / 초중급 / 중급 / 중고급</span>
+                </div>
+                
+                <div class="intro-item">
+                    <strong>🎓 대상</strong>
+                    <span>인근 대학생, 직장인 (평균 연령 25세)</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-section">
+            <h2 class="form-section-title">신청하기</h2>
+            
+            <form id="applicationForm">
+                <div class="form-group">
+                    <label for="name">이름 (영어 or 한국어) <span class="required">*</span></label>
+                    <input type="text" id="name" name="name" required placeholder="예: 홍길동 or Gil-dong Hong">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">연락처 <span class="required">*</span></label>
+                    <input type="tel" id="phone" name="phone" required placeholder="010-0000-0000">
+                    <small class="helper-text">💬 카톡으로 연락드려요</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="applicationType">신청 <span class="required">*</span></label>
+                    <select id="applicationType" name="applicationType" required>
+                        <option value="">선택해주세요</option>
+                        <option value="상담+레벨테스트">상담 + 레벨테스트</option>
+                        <option value="맛보기 클래스">맛보기 클래스</option>
+                        <option value="바로 등록하기">바로 등록하기</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">남기실 말 (선택사항)</label>
+                    <textarea id="message" name="message" placeholder="영어 실력, 학습 목표, 궁금한 점 등을 자유롭게 남겨주세요"></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="submitBtn">신청하기</button>
+                
+                <div class="success-message" id="successMessage">
+                    ✓ 신청이 성공적으로 접수되었습니다!<br>빠른 시일 내에 카톡으로 연락드리겠습니다.
+                </div>
+                
+                <div class="error-message" id="errorMessage">
+                    ✗ 접수 중 오류가 발생했습니다.<br>잠시 후 다시 시도해주세요.
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <h3>개인정보 수집 동의</h3>
+            <p>입력하신 개인정보를 바탕으로 신청이 접수됩니다.<br>동의하시겠습니까?</p>
+            <div class="modal-buttons">
+                <button class="modal-btn no" onclick="closeModal()">아니오</button>
+                <button class="modal-btn yes" onclick="submitForm()">예</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ⚠️ 중요: Render 배포 후 이 URL을 실제 서버 주소로 변경하세요!
+        // 예: https://sinchon-project.onrender.com/api/application
+        const SERVER_URL = 'https://sinchon-project.onrender.com/api/application';
+        
+        document.getElementById('applicationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 필수 항목 확인
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const applicationType = document.getElementById('applicationType').value;
+            
+            if (!name || !phone || !applicationType) {
+                alert('필수 항목을 모두 입력해주세요.');
+                return;
+            }
+            
+            // 모달 표시
+            document.getElementById('confirmModal').classList.add('show');
+        });
+        
+        function closeModal() {
+            document.getElementById('confirmModal').classList.remove('show');
+        }
+        
+        async function submitForm() {
+            closeModal();
+            
+            // 버튼 비활성화
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = '접수 중...';
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                applicationType: document.getElementById('applicationType').value,
+                message: document.getElementById('message').value,
+                timestamp: new Date().toLocaleString('ko-KR')
+            };
+            
+            try {
+                const response = await fetch(SERVER_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                if (response.ok) {
+                    document.getElementById('successMessage').style.display = 'block';
+                    document.getElementById('errorMessage').style.display = 'none';
+                    document.getElementById('applicationForm').reset();
+                    
+                    // 3초 후 메시지 숨김
+                    setTimeout(() => {
+                        document.getElementById('successMessage').style.display = 'none';
+                    }, 3000);
+                } else {
+                    throw new Error('서버 응답 오류');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('successMessage').style.display = 'none';
+            } finally {
+                // 버튼 다시 활성화
+                submitBtn.disabled = false;
+                submitBtn.textContent = '신청하기';
+            }
+        }
+    </script>
+</body>
+</html>
