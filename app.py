@@ -241,6 +241,10 @@ def submit_application():
     try:
         data = request.json
         
+        # 연락처 필드명 통일 처리 (phone -> contact)
+        if 'contact' not in data and 'phone' in data:
+            data['contact'] = data['phone']
+        
         # 타임스탬프 추가
         if 'timestamp' not in data:
             data['timestamp'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
